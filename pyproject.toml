@@ -1,0 +1,22 @@
+[build-system]
+
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "NetworkSecurity"
+version = "0.0.1"
+description = "Проект з мережевої безпеки та аналізу даних"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+  { name = "Corner_maniac", email = "vitaliy98765321@gmail.com" }
+]
+
+dynamic = ["dependencies"]
+
+[tool.setuptools]
+packages = { find = {} }
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
