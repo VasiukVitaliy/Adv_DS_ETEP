@@ -4,3 +4,9 @@ __pycache__
 .env
 *json
 *.egg-info
+*.csv
+*.npy
+*.pkl
+test_mongodb.py
+push_data.py
+Artifacts

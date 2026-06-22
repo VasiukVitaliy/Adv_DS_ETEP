@@ -32,7 +32,7 @@ def save_numpy_data_array(data, path):
             np.save(file_obj, data)
     except Exception as e:
         raise NetworkSecurityException(e, sys)
-    
+
 def save_obj(data, path):
     try:
         logging.info("Entered the save_object method of MainUtils class")
@@ -41,5 +41,21 @@ def save_obj(data, path):
         with open(path, "wb") as file_obj:
            pickle.dump(data, file_obj)
         logging.info("Exited the save_object method of MainUtils class")
+    except Exception as e:
+        raise NetworkSecurityException(e, sys)
+    
+def load_obj(path):
+    try:
+        with open(path, "rb") as file_obj:
+            model = pickle.load(file_obj)
+        return model
+    except Exception as e:
+        raise NetworkSecurityException(e, sys)
+    
+def load_numpy_array(path):
+    try:
+        with open(path, "rb") as file_obj:
+            model = np.load(file_obj)
+        return model
     except Exception as e:
         raise NetworkSecurityException(e, sys)
