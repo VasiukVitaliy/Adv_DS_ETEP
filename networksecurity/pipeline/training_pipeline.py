@@ -16,6 +16,7 @@ from networksecurity.entity.config_entity import(
     DataTransformationConfig,
     ModelTrainingConfig
 )
+from networksecurity.cloud.s3_sync import artifact_to_s3, model_to_s3
 
 from networksecurity.entity.artifact_entity import (
     DataIngestionArtifact,
@@ -23,6 +24,9 @@ from networksecurity.entity.artifact_entity import (
     DataTransformationArtifact,
     ModelTrainerArtifact,
 )
+
+from dotenv import load_dotenv
+load_dotenv()
 
 class TrainingPipeline:
     def __init__(self):
@@ -72,12 +76,32 @@ class TrainingPipeline:
         except Exception as e:
             raise NetworkSecurityException(e, sys)
         
+    def save_artifacts_to_s3(self):
+        try:
+            artifact_to_s3(self.training_pipe_config.artifact_path, 
+                           self.training_pipe_config.pipeline_name,
+                           "artifacts"
+                           )
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
+        
+    def save_model_to_s3(self):
+        try:
+            model_to_s3("final_model/full_model.pkl", 
+                           self.training_pipe_config.pipeline_name,
+                           "artifacts"
+                           )
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
+
     def run_pipeline(self):
         try:
             data_ingestion_artifact=self.init_ingestion()
             data_validation_artifact=self.init_validation(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact=self.init_transform(data_validation_artifact=data_validation_artifact)
             model_trainer_artifact=self.init_train(data_transformation_artifact=data_transformation_artifact)
+            self.save_artifacts_to_s3()
+            self.save_model_to_s3()
             
             return model_trainer_artifact
         except Exception as e:

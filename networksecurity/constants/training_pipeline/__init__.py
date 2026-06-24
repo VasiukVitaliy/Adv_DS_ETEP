@@ -5,7 +5,7 @@ import pandas as pd
 
 # def values
 TARGET_COLUMN: str = "Result"
-PIPELINE_NAME: str = "NetworkData"
+PIPELINE_NAME: str = "networksecurity1"
 ARTIFACT_DIR: str = "Artifacts"
 FILE_NAME: str = "phisingData.csv"
 
