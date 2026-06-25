@@ -1,9 +1,13 @@
 FROM python:3.12-slim
 
 WORKDIR /project
-COPY . /project/
 
-RUN apt update -y && apt install awscli -y
-RUN pip install uv && uv pip install -r requirements.txt
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY requirements.txt /project/
+
+RUN uv pip install --system -r requirements.txt
+RUN uv pip install --system awscli
+
+COPY . /project/
 
 CMD ["python3", "app.py"]
