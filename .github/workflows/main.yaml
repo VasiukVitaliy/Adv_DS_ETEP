@@ -86,6 +86,7 @@ jobs:
             -e 'AWS_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY }}' \
             -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}' \
             -e 'AWS_REGION=${{ secrets.AWS_REGION }}' \
+             -e 'MONGO_DB_URI_CONNECT="${{ secrets.MONGO_DB_URI_CONNECT }}' \ 
             ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
       - name: Clean previous images and containers
